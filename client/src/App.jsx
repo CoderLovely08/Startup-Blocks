@@ -1,10 +1,19 @@
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import Nav from "./components/Nav";
 
 const App = () => {
   return (
-    <div className="text-center flex justify-center w-full items-center min-h-screen">
-      App
-    </div>
+    // <BrowserRouter>
+    <main className="relative">
+      {/* Navbar */}
+      <Nav />
+      {/* Hero Section */}
+      <section>Hero</section>
+      {/* Cards Section */}
+      <section>Cards</section>
+    </main>
+    // </BrowserRouter>
   );
 };
 
