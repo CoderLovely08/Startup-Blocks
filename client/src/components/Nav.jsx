@@ -9,12 +9,21 @@ const Nav = () => {
       <nav className="flex flex-1 justify-between items-center max-container">
         {/* Logo */}
 
-        <p className="font-bold text-xl bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-white border-cyan-500 border hover:text-cyan-500 max-sm:text-sm max-sm:py-1 max-sm:px-2">
-          Startup Blocks
-        </p>
+        <Link to={"/"}>
+          <p className="font-bold text-xl bg-cyan-500 text-white px-4 py-2 rounded-md hover:bg-white border-cyan-500 border hover:text-cyan-500 max-sm:text-sm max-sm:py-1 max-sm:px-2">
+            Startup Blocks
+          </p>
+        </Link>
 
         <SearchBar />
-        <Button label={"Login"} />
+        <div>
+          <Link to={"/login"}>
+            <Button label={"Login"} />
+          </Link>
+          <Link to={"/register"}>
+            <Button label={"Signup"} variant="contained" />
+          </Link>
+        </div>
       </nav>
     </header>
   );
