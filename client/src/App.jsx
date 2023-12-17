@@ -1,19 +1,21 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Nav from "./components/Nav";
+import Home from "./pages/Home";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 const App = () => {
   return (
-    // <BrowserRouter>
-    <main className="relative">
+    <BrowserRouter>
       {/* Navbar */}
       <Nav />
-      {/* Hero Section */}
-      <section>Hero</section>
-      {/* Cards Section */}
-      <section>Cards</section>
-    </main>
-    // </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
