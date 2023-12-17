@@ -1,10 +1,11 @@
 import React from "react";
+import Hero from "../components/Hero";
 
 const Home = () => {
   return (
     <main className="relative">
       {/* Hero Section */}
-      <section>Hero</section>
+      <Hero />
       {/* Cards Section */}
       <section>Cards</section>
     </main>
