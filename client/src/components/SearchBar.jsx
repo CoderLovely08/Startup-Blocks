@@ -9,7 +9,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="flex-grow max-w-4xl mx-2 relative">
+    <div className="flex-grow max-w-4xl relative">
       <input
         className="w-full border ring-cyan-500 border-cyan-400 rounded-md px-4 py-2 outline-none hover:shadow-md font-palanquin max-sm:px-2 max-sm:py-1"
         type={"text"}
