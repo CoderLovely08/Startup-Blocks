@@ -1,10 +1,28 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Hero from "../components/Hero";
 import Modal from "../components/Modal";
 
 const Home = () => {
-  const [selectedStartup, setSelectedStartup] = useState(true);
+  const [selectedStartup, setSelectedStartup] = useState(null);
+  const [startupList, setStartupList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/startup/startups"
+        );
+        console.log(response.data.data);
+        setStartupList(response.data.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData(); // Call the async function
+  }, []); // Empty dependency array means this effect runs once when the component mounts
 
   const startups = [
     {
@@ -35,7 +53,7 @@ const Home = () => {
       <Hero />
       {/* Cards Section */}
       <section className="w-2/3 bg-white border rounded-md flex flex-wrap justify-center max-md:w-full">
-        {items.map((item) => (
+        {startupList.map((item) => (
           <Card
             key={item.title}
             startupInfo={item}
