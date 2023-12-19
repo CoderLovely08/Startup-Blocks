@@ -1,5 +1,5 @@
 import { generateJwtToken } from "../middlewares/tokenHandler.js";
-import { authenticateUser } from "../modules/authModule.js";
+import { authenticateUser, createNewUser } from "../modules/authModule.js";
 
 /**
  * Controller function to handle user registration.
@@ -8,9 +8,16 @@ import { authenticateUser } from "../modules/authModule.js";
  */
 export const registerUser = async (req, res) => {
   try {
-    // Placeholder response for user registration route
+    const { userFullName, userEmail, userPassword } = req.body;
+    const isCreated = await createNewUser(
+      userFullName,
+      userEmail,
+      userPassword
+    );
+    // Response for user registration route
     res.json({
-      route: "Registration",
+      success: isCreated,
+      message: isCreated ? "Registration completed" : "Unable to register user",
     });
   } catch (error) {
     // Handle errors and respond with an error message

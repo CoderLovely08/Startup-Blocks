@@ -1,5 +1,7 @@
 import pool from "../config/dbConfig.js";
 import bcrypt from "bcrypt";
+// bcrypt configuration
+const SALT_ROUNDS = 10;
 
 /**
  * Authenticate a user based on email and password.
@@ -39,5 +41,27 @@ export const authenticateUser = async (email, password) => {
     // Handle errors and log them
     console.error(`Error in authenticateUser() call: ${error}`);
     return { authenticated: false };
+  }
+};
+
+export const createNewUser = async (name, email, password) => {
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const query = {
+      text: `
+      INSERT INTO UserInfo(
+        user_full_name,
+        user_email,
+        user_password
+      ) VALUES ($1, $2, $3)`,
+      values: [name, email, hashedPassword],
+    };
+
+    const { rowCount } = await pool.query(query);
+
+    return rowCount === 1 ? true : false;
+  } catch (error) {
+    console.error(`Error in createNewUser() call: ${error}`);
+    return false;
   }
 };
