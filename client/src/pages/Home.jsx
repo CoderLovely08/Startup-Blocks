@@ -33,7 +33,6 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log("claled");
     const fetchData = async () => {
       try {
         dispatch({ type: "SET_LOADING", payload: true });

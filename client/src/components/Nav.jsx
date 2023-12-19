@@ -11,7 +11,7 @@ const Nav = () => {
 
   const handleLogout = () => {
     logout();
-    enqueueSnackbar("Logout Successful");
+    enqueueSnackbar("Logout Successful", { variant: "warning" });
   };
   return (
     <header className="px-2 py-2 sticky top-0 z-50 w-full shadow-md bg-white-400 max-sm:h-20">

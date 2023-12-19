@@ -3,10 +3,13 @@ import { useForm } from "react-hook-form";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import axios from "axios";
+import { BASE_AUTH_URL } from "../service";
+import { useAuth } from "../context/AuthContext";
 
 const LoginForm = () => {
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -21,13 +24,30 @@ const LoginForm = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+    axios
+      .post(BASE_AUTH_URL + "/login", {
+        userEmail: data["user-email"],
+        userPassword: data["user-password"],
+      })
+      .then((result) => {
+        enqueueSnackbar(result.data?.message, {
+          variant: result.data?.success ? "success" : "error",
+          preventDuplicate: true,
+        });
+        login(result.data.userName);
+      })
+      .catch((error) => {
+        enqueueSnackbar(error?.message, {
+          variant: "error",
+          preventDuplicate: true,
+        });
+      });
   };
   return (
     <div className="flex flex-col gap-4 w-1/3 max-sm:w-full justify-center items-center p-4 my-6 mx-4 border shadow-xl rounded-xl">
       <SnackbarProvider
         anchorOrigin={{
-          vertical: "top",
+          vertical: "bottom",
           horizontal: "right",
         }}
       />
