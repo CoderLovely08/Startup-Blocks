@@ -9,6 +9,7 @@ import { authenticateUser, createNewUser } from "../modules/authModule.js";
 export const registerUser = async (req, res) => {
   try {
     const { userFullName, userEmail, userPassword } = req.body;
+
     const isCreated = await createNewUser(
       userFullName,
       userEmail,
@@ -16,8 +17,8 @@ export const registerUser = async (req, res) => {
     );
     // Response for user registration route
     res.json({
-      success: isCreated,
-      message: isCreated ? "Registration completed" : "Unable to register user",
+      success: isCreated.success,
+      message: isCreated.message,
     });
   } catch (error) {
     // Handle errors and respond with an error message

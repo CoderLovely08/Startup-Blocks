@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import { registerUser } from "../service";
 
 const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,11 +21,25 @@ const RegisterForm = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    enqueueSnackbar({
-      message: "Registration Successful",
-      variant: "success",
-    });
+  const onSubmit = async (data) => {
+    const result = await registerUser(
+      data.user_name,
+      data.user_email,
+      data.user_password
+    );
+
+    if (result.success) {
+      enqueueSnackbar({
+        message: result.data?.message || "Illegal Argument",
+        variant: result.data?.success ? "success" : "error",
+      });
+    } else {
+      console.log(result);
+      enqueueSnackbar({
+        message: "Network Err",
+        variant: result.data?.success ? "success" : "error",
+      });
+    }
   };
   return (
     <div className="flex flex-col gap-4 w-1/3 max-sm:w-full justify-center items-center p-4 my-6 mx-4 border shadow-xl rounded-xl">
@@ -45,17 +60,19 @@ const RegisterForm = () => {
           <input
             type="text"
             id="user_name"
-            name="user-name"
-            {...register("user-name", {
+            name="user_name"
+            minLength={6}
+            maxLength={40}
+            {...register("user_name", {
               required: "Name field cannot be empty",
             })}
             className="form-input"
             placeholder="Full Name"
             required="Name field cannot be empty"
           />
-          {errors["user-name"] && (
+          {errors["user_name"] && (
             <p className="text-xs text-red-500">
-              {errors["user-name"].message}
+              {errors["user_name"].message}
             </p>
           )}
         </div>
@@ -65,17 +82,19 @@ const RegisterForm = () => {
           <input
             type="email"
             id="user_email"
-            name="user-email"
-            {...register("user-email", {
+            name="user_email"
+            minLength={6}
+            maxLength={40}
+            {...register("user_email", {
               required: "Email cannot be empty",
             })}
             className="form-input"
             placeholder="Email"
             required="Email cannot be empty"
           />
-          {errors["user-email"] && (
+          {errors["user_email"] && (
             <p className="text-xs text-red-500">
-              {errors["user-email"].message}
+              {errors["user_email"].message}
             </p>
           )}
         </div>
@@ -85,17 +104,19 @@ const RegisterForm = () => {
           <input
             type={showPassword ? "text" : "password"}
             id="user_password"
-            name="user-password"
-            {...register("user-password", {
+            name="user_password"
+            minLength={6}
+            maxLength={20}
+            {...register("user_password", {
               required: "Password cannot be empty",
             })}
             className="form-input"
             placeholder="Password"
             required="Password cannot be empty"
           />
-          {errors["user-password"] && (
+          {errors["user_password"] && (
             <p className="text-xs text-red-500">
-              {errors["user-password"].message}
+              {errors["user_password"].message}
             </p>
           )}
           <button

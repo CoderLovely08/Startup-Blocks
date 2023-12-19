@@ -59,9 +59,25 @@ export const createNewUser = async (name, email, password) => {
 
     const { rowCount } = await pool.query(query);
 
-    return rowCount === 1 ? true : false;
+    return rowCount === 1
+      ? {
+          success: true,
+          message: "Registration Completed",
+        }
+      : {
+          success: false,
+          message: "Unable to register user",
+        };
   } catch (error) {
+    if (error.constraint.includes("user_email_unq"))
+      return {
+        success: false,
+        message: "Email already exists",
+      };
     console.error(`Error in createNewUser() call: ${error}`);
-    return false;
+    return {
+      success: false,
+      message: "Sever Error",
+    };
   }
 };
