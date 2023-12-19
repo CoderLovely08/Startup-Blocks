@@ -8,11 +8,11 @@ export const getAllStartups = async (searchString, page, pageSize, filter) => {
     // Check if there's a search string
     if (searchString) {
       // If there's a search string, add a WHERE clause to the query
-      queryText += ` AND startup_name ILIKE $1 
+      queryText += ` AND (startup_name ILIKE $1 
         OR startup_industry_vertical ILIKE $1 
         OR startup_sub_vertical ILIKE $1 
       OR startup_city ILIKE $1 
-      OR startup_investor_name ILIKE $1 
+      OR startup_investor_name ILIKE $1 )
       `;
       queryParams.push(`%${searchString}%`);
     }

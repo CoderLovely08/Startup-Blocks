@@ -36,6 +36,7 @@ app.get("/", (req, res) => {
 
 // Authentication routes
 app.use("/api/auth", authRouter);
+// API routes for Startup data
 app.use("/api/startup", startupRouter);
 
 app.listen(process.env.PORT || 3000, (err) => {
