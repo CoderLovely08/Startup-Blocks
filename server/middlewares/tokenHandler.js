@@ -6,6 +6,11 @@ const HTTP_UNAUTHORIZED = 401;
 // Constants for token configuration
 const TOKEN_EXPIRATION = "1h";
 
+/**
+ * Generate a JWT token with the provided payload.
+ * @param {object} payload - The data to be included in the JWT token.
+ * @returns {string | null} - The generated JWT token or null if an error occurs.
+ */
 export const generateJwtToken = async (payload) => {
   try {
     const token = await jwt.sign(payload, process.env.TOKEN_SECRET, {
@@ -18,6 +23,13 @@ export const generateJwtToken = async (payload) => {
   }
 };
 
+/**
+ * Middleware to verify the JWT token in the request.
+ * @param {object} req - The Express request object.
+ * @param {object} res - The Express response object.
+ * @param {function} next - The next middleware or route handler.
+ * @returns {void}
+ */
 export const verifyToken = async (req, res, next) => {
   try {
     const accessToken = req.cookies?.token;

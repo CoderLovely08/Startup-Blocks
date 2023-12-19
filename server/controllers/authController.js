@@ -1,18 +1,30 @@
 import { generateJwtToken } from "../middlewares/tokenHandler.js";
-import { authenticateUser } from "../modules/auth.js";
+import { authenticateUser } from "../modules/authModule.js";
 
+/**
+ * Controller function to handle user registration.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 export const registerUser = async (req, res) => {
   try {
+    // Placeholder response for user registration route
     res.json({
       route: "Registration",
     });
   } catch (error) {
+    // Handle errors and respond with an error message
     res.json({
-      error: "Error occured in registration route",
+      error: "Error occurred in registration route",
     });
   }
 };
 
+/**
+ * Controller function to handle user login.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 export const loginUser = async (req, res) => {
   try {
     const { userEmail, userPassword } = req.body;
