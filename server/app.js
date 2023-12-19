@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 import { config } from "dotenv";
 
@@ -7,7 +8,12 @@ import { config } from "dotenv";
 config();
 
 const app = express();
+
+// setting up middlewares
 app.use(cors());
+app.use(express.json());
+app.use(cookieParser());
+
 // Import routes
 import authRouter from "./routes/authRoutes.js";
 import startupRouter from "./routes/startupRoutes.js";
