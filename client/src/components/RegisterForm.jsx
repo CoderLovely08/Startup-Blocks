@@ -43,12 +43,6 @@ const RegisterForm = () => {
   };
   return (
     <div className="flex flex-col gap-4 w-1/3 max-sm:w-full justify-center items-center p-4 my-6 mx-4 border shadow-xl rounded-xl">
-      <SnackbarProvider
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-      />
       <h3 className="text-2xl font-bold text-left">Register</h3>
       <form
         ref={form}

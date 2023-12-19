@@ -4,7 +4,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 import { SnackbarProvider, enqueueSnackbar } from "notistack";
 import axios from "axios";
-import { BASE_AUTH_URL } from "../service";
+import { BASE_AUTH_URL, loginUser } from "../service";
 import { useAuth } from "../context/AuthContext";
 
 const LoginForm = () => {
@@ -23,34 +23,20 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    axios
-      .post(BASE_AUTH_URL + "/login", {
-        userEmail: data["user-email"],
-        userPassword: data["user-password"],
-      })
-      .then((result) => {
-        enqueueSnackbar(result.data?.message, {
-          variant: result.data?.success ? "success" : "error",
-          preventDuplicate: true,
-        });
-        login(result.data.userName);
-      })
-      .catch((error) => {
-        enqueueSnackbar(error?.message, {
-          variant: "error",
-          preventDuplicate: true,
-        });
+  const onSubmit = async (data) => {
+    const result = await loginUser(data.user_email, data.user_password);
+    console.log(result);
+    if (result.success) {
+      enqueueSnackbar(result.data?.message, {
+        variant: result.loginTrue ? "success" : "error",
       });
+      login(result.data.userName);
+    } else {
+      enqueueSnackbar(result.message, { variant: "error" });
+    }
   };
   return (
     <div className="flex flex-col gap-4 w-1/3 max-sm:w-full justify-center items-center p-4 my-6 mx-4 border shadow-xl rounded-xl">
-      <SnackbarProvider
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-      />
       <h3 className="text-2xl font-bold text-left">Login</h3>
       <form
         ref={form}
@@ -61,17 +47,17 @@ const LoginForm = () => {
           <input
             type="email"
             id="user_email"
-            name="user-email"
-            {...register("user-email", {
+            name="user_email"
+            {...register("user_email", {
               required: "Email cannot be empty",
             })}
             className="form-input"
             placeholder="Email"
             required="Email cannot be empty"
           />
-          {errors["user-email"] && (
+          {errors["user_email"] && (
             <p className="text-xs text-red-500">
-              {errors["user-email"].message}
+              {errors["user_email"].message}
             </p>
           )}
         </div>
@@ -79,17 +65,17 @@ const LoginForm = () => {
           <input
             type={showPassword ? "text" : "password"}
             id="user_password"
-            name="user-password"
-            {...register("user-password", {
+            name="user_password"
+            {...register("user_password", {
               required: "Password cannot be empty",
             })}
             className="form-input"
             placeholder="Password"
             required="Password cannot be empty"
           />
-          {errors["user-password"] && (
+          {errors["user_password"] && (
             <p className="text-xs text-red-500">
-              {errors["user-password"].message}
+              {errors["user_password"].message}
             </p>
           )}
           <button

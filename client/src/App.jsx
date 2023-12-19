@@ -1,3 +1,4 @@
+import { SnackbarProvider } from "notistack";
 import React from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Nav from "./components/Nav";
@@ -11,6 +12,12 @@ const App = () => {
 
   return (
     <BrowserRouter>
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+      />
       {/* Navbar */}
       <Nav />
       <Routes>
