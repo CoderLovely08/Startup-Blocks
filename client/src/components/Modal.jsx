@@ -14,8 +14,8 @@ const Modal = ({ startupInfo, onClose }) => {
   } = startupInfo;
 
   return (
-    <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
-      <div className="bg-white w-96 max-md:w-2/3 max-sm:w-full rounded-md p-6 font-palanquin">
+    <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 z-[100]">
+      <div className="bg-white w-96 max-md:w-2/3 max-sm:w-9/12 rounded-md p-6 font-palanquin">
         <div className="mb-4">
           <h2 className="text-2xl font-bold  underline text-cyan-500">
             {startup_name}
@@ -33,11 +33,15 @@ const Modal = ({ startupInfo, onClose }) => {
               {startup_city}
             </span>
           </p>
+          <p>
+            <span className="font-bold">Starting Year:</span>{" "}
+            <span className="">📅{new Date(startup_date).getFullYear()}</span>
+          </p>
         </div>
         <div className="mb-4">
           <p>
             <span className="font-bold">Funding:</span>{" "}
-            <span className="bg-green-400 px-2 mx-2 rounded-md font-bold text-green-900 ring ring-green-700">
+            <span className="bg-green-400 px-2 mx-2 rounded-md font-bold text-green-900 ring ring-green-700 inline-block">
               {startup_funding}💸
             </span>
           </p>
