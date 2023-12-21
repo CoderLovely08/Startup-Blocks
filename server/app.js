@@ -10,9 +10,15 @@ config();
 const app = express();
 
 // setting up middlewares
-app.use(cors());
+const corsOptions = {
+  origin: ["http://localhost:5173"],
+  credentials: true,
+};
+
+// app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors(corsOptions));
 
 // Import routes
 import authRouter from "./routes/authRoutes.js";
