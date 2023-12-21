@@ -11,7 +11,10 @@ const app = express();
 
 // setting up middlewares
 const corsOptions = {
-  origin: `${process.env.CLIENT_HOST_URL}`,
+  origin:
+    process.env.NODE_ENV == "production"
+      ? `${process.env.CLIENT_HOST_URL}`
+      : "http://localhost:5173",
   credentials: true,
 };
 

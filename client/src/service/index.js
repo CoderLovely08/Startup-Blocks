@@ -3,12 +3,18 @@ import axios from "../config/axiosConfig";
 /**
  * Base URL for authentication-related API endpoints.
  */
-export const BASE_AUTH_URL = "http://127.0.0.1:3000/api/auth";
+export const BASE_AUTH_URL =
+  import.meta.env.VITE_ENV == "production"
+    ? import.meta.env.VITE_PROD_BASE_AUTH_URL
+    : import.meta.env.VITE_DEV_BASE_AUTH_URL;
 
 /**
  * Base URL for startup-related API endpoints.
  */
-export const BASE_STARTUP_URL = "http://127.0.0.1:3000/api/startup";
+export const BASE_STARTUP_URL =
+  import.meta.env.VITE_ENV == "production"
+    ? import.meta.env.VITE_PROD_BASE_STARTUP_URL
+    : import.meta.env.VITE_DEV_BASE_STARTUP_URL;
 
 /**
  * Register a new user.
