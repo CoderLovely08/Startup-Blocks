@@ -5,12 +5,16 @@ import { config } from "dotenv";
 config();
 
 const pool = new pg.Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  idleTimeoutMillis: 30000,
+  host: process.env.PROD_DB_HOST,
+  port: process.env.PROD_DB_PORT,
+  user: process.env.PROD_DB_USER,
+  password: process.env.PROD_DB_PASSWORD,
+  database: process.env.PROD_DB_DATABASE,
+  ssl: {
+    rejectUnauthorized: false,
+  },
+  sslmode: "require",
+  idleTimeoutMillis: 1000,
   connectionTimeoutMillis: 2000,
 });
 
