@@ -14,7 +14,7 @@ const pool = new pg.Pool({
     rejectUnauthorized: false,
   },
   sslmode: "require",
-  idleTimeoutMillis: 1000,
+  idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
 });
 
