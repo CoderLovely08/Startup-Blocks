@@ -114,3 +114,22 @@ export const logoutUser = async (req, res) => {
   }
 };
 
+/**
+ * Validate and respond with the authenticated user information.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+export const validateUser = async (req, res) => {
+  try {
+    // Respond with the authenticated user information
+    res.json({ success: true, user: req.user });
+  } catch (error) {
+    // Log the error and respond with a 500 Internal Server Error
+    console.error("Error in POST /validate route:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
