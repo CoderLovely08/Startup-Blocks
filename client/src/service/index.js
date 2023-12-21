@@ -4,17 +4,12 @@ import axios from "../config/axiosConfig";
  * Base URL for authentication-related API endpoints.
  */
 export const BASE_AUTH_URL =
-  import.meta.env.VITE_ENV == "production"
-    ? import.meta.env.VITE_PROD_BASE_AUTH_URL
-    : import.meta.env.VITE_DEV_BASE_AUTH_URL;
-
+  "https://combative-bat-life-jacket.cyclic.app/api/auth";
 /**
  * Base URL for startup-related API endpoints.
  */
 export const BASE_STARTUP_URL =
-  import.meta.env.VITE_ENV == "production"
-    ? import.meta.env.VITE_PROD_BASE_STARTUP_URL
-    : import.meta.env.VITE_DEV_BASE_STARTUP_URL;
+  "https://combative-bat-life-jacket.cyclic.app/api/startup";
 
 /**
  * Register a new user.
