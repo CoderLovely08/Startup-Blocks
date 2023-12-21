@@ -1,18 +1,39 @@
 import { UserCircleIcon } from "@heroicons/react/24/solid";
+import axios from "axios";
 import { enqueueSnackbar } from "notistack";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { BASE_AUTH_URL, logoutUser } from "../service";
+
 import Button from "./Button";
 import SearchBar from "./SearchBar";
 
 const Nav = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, login } = useAuth();
+  const navigateTo = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    enqueueSnackbar("Logout Successful", { variant: "warning" });
+  // Validate user accessibility
+  useEffect(() => {
+    axios
+      .get(BASE_AUTH_URL + "/validate", { withCredentials: true })
+      .then((res) => login(res.data?.user?.userName))
+      .catch((err) => null);
+  }, []);
+
+  // Handle logout operation for user
+  const handleLogout = async () => {
+    const result = await logoutUser();
+    if (result.success) {
+      navigateTo("/login");
+      logout();
+      enqueueSnackbar(result.message, { variant: "warning" });
+    } else {
+      enqueueSnackbar("Logout Rejected", { variant: "warning" });
+    }
   };
+
+  // Render component
   return (
     <header className="px-2 py-2 sticky top-0 z-50 w-full shadow-md bg-white-400 max-sm:h-20">
       <nav className="flex flex-1 justify-between items-center max-container">
