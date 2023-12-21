@@ -1,4 +1,8 @@
-import { getAllInvestmentTypes, getAllStartups } from "../modules/startupModule.js";
+import {
+  addNewStartupItem,
+  getAllInvestmentTypes,
+  getAllStartups,
+} from "../modules/startupModule.js";
 
 /**
  * Fetch all startups based on search, pagination, and filter criteria.
@@ -22,9 +26,11 @@ export const fetchAllStartups = async (req, res) => {
     });
   } catch (error) {
     console.error(`Error in GET /startups route: ${error}`);
-
-    res.json({
-      message: "Not working",
+    // Log the error and respond with a 500 Internal Server Error
+    console.error("Error in POST /logout route:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
     });
   }
 };
@@ -38,16 +44,74 @@ export const fetchAllDomain = async (req, res) => {
   try {
     const result = await getAllInvestmentTypes();
 
-    res.json({
+    res.status(200).json({
       success: true,
       count: result.length,
       data: result,
+      message: "Fetched successfully",
     });
   } catch (error) {
     console.error(`Error in GET /investments route: ${error}`);
+    // Log the error and respond with a 500 Internal Server Error
+    console.error("Error in POST /logout route:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
 
-    res.json({
-      message: "Not working",
+/**
+ * Create a new startup item based on the provided information.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+export const createNewStartupItem = async (req, res) => {
+  try {
+    // Destructure startupInfo from the request body
+    const {
+      startupCity,
+      startupDate,
+      startupFundingAmount,
+      startupIndustryVertical,
+      startupInvestmentType,
+      startupInvestorName,
+      startupName,
+      startupRemarks,
+      startupSubVertical,
+    } = req.body.startupInfo;
+
+    // Get the userId from the authenticated user in the request
+    const userId = req.user?.userId;
+
+    // Call the function to add a new startup item to the database
+    const isItemCreated = await addNewStartupItem(
+      startupCity,
+      startupDate,
+      startupFundingAmount,
+      startupIndustryVertical,
+      startupInvestmentType,
+      startupInvestorName,
+      startupName,
+      startupRemarks,
+      startupSubVertical,
+      userId
+    );
+
+    // Respond based on whether the item was created successfully
+    res.status(isItemCreated ? 201 : 422).json({
+      success: isItemCreated,
+      message: isItemCreated
+        ? "Post added successfully"
+        : "Unable to post right now",
+    });
+  } catch (error) {
+    console.error(`Error in GET /add route: ${error}`);
+    // Log the error and respond with a 500 Internal Server Error
+    console.error("Error in POST /logout route:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
     });
   }
 };
