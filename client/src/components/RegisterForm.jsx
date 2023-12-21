@@ -2,12 +2,15 @@ import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
-import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import { enqueueSnackbar } from "notistack";
 import { registerUser } from "../service";
+import PageLoading from "./PageLoading";
+import { Link, useNavigate } from "react-router-dom";
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState("");
+  const [isPageLoading, setIsPageLoading] = useState(false);
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
@@ -22,6 +25,7 @@ const RegisterForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    setIsPageLoading(true);
     const result = await registerUser(
       data.user_name,
       data.user_email,
@@ -33,12 +37,14 @@ const RegisterForm = () => {
         message: result.data?.message || "Illegal Argument",
         variant: result.data?.success ? "success" : "error",
       });
+      setIsPageLoading(false);
+      if (result.data?.success) navigate("/login");
     } else {
-      console.log(result);
       enqueueSnackbar({
-        message: "Network Err",
+        message: "Network Error",
         variant: result.data?.success ? "success" : "error",
       });
+      setIsPageLoading(false);
     }
   };
   return (
@@ -125,13 +131,23 @@ const RegisterForm = () => {
             )}
           </button>
         </div>
+
+        {/* Submit button */}
         <button
           type="submit"
           className="font-palanquin font-bold text-md text-white border border-cyan-500 bg-cyan-500 rounded-md px-4 py-2 shadow-xl my-2 hover:text-cyan-500 hover:bg-white transition w-full"
         >
           Register
         </button>
+        <p className="font-bold text-sm text-slate-gray text-center">
+          Already have an account?{" "}
+          <span className="text-cyan-500 underline">
+            <Link to={"/login"}>Login</Link>
+          </span>
+        </p>
       </form>
+
+      {isPageLoading && <PageLoading />}
     </div>
   );
 };

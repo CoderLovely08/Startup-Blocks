@@ -1,21 +1,22 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
-
-import { SnackbarProvider, enqueueSnackbar } from "notistack";
-import axios from "axios";
-import { BASE_AUTH_URL, loginUser } from "../service";
+import { enqueueSnackbar } from "notistack";
+import { loginUser } from "../service";
 import { useAuth } from "../context/AuthContext";
+import PageLoading from "./PageLoading";
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
   const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(false);
+  const form = useRef();
 
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const form = useRef();
 
   const {
     register,
@@ -24,15 +25,18 @@ const LoginForm = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    setIsPageLoading(true);
     const result = await loginUser(data.user_email, data.user_password);
-    console.log(result);
+
     if (result.success) {
       enqueueSnackbar(result.data?.message, {
         variant: result.loginTrue ? "success" : "error",
       });
       login(result.data.userName);
+      setIsPageLoading(false);
     } else {
       enqueueSnackbar(result.message, { variant: "error" });
+      setIsPageLoading(false);
     }
   };
   return (
@@ -96,7 +100,16 @@ const LoginForm = () => {
         >
           Submit
         </button>
+
+        <p className="font-bold text-sm text-slate-gray text-center">
+          Don't have an account?{" "}
+          <span className="text-cyan-500 underline">
+            <Link to={"/register"}>Register</Link>
+          </span>
+        </p>
       </form>
+
+      {isPageLoading && <PageLoading />}
     </div>
   );
 };
