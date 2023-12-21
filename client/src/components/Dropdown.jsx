@@ -6,7 +6,7 @@ const Dropdown = ({ options, title }) => {
 
   return (
     <select
-      className="bg-slate-100 px-2 py-1 mx-2 shadow-md border rounded-md"
+      className="bg-slate-100 px-2 py-1 shadow-md border rounded-md"
       onChange={(e) => {
         dispatch({
           type: "SET_CURRENT_FILTER",
