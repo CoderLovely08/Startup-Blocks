@@ -18,7 +18,7 @@ const Modal = ({ startupInfo, onClose }) => {
       <div className="bg-white w-96 max-md:w-2/3 max-sm:w-9/12 rounded-md p-6 font-palanquin">
         <div className="mb-4">
           <h2 className="text-2xl font-bold  underline text-cyan-500">
-            {startup_name}
+            #{startup_name}
           </h2>
           <p className="text-gray-500">{startup_industry_vertical}</p>
         </div>
@@ -51,7 +51,7 @@ const Modal = ({ startupInfo, onClose }) => {
             <span className="font-bold">Investor:</span> {startup_investor_name}
           </p>
           <p>
-            <span className="font-bold">Type</span> {startup_investment_type}
+            <span className="font-bold">Type: </span> {startup_investment_type}
           </p>
         </div>
         <div>

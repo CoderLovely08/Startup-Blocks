@@ -125,7 +125,7 @@ export const validateUser = async (req, res) => {
     res.json({ success: true, user: req.user });
   } catch (error) {
     // Log the error and respond with a 500 Internal Server Error
-    console.error("Error in POST /validate route:", error);
+    console.error("Error in GET /validate route:", error);
 
     res.status(500).json({
       success: false,

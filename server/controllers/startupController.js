@@ -27,7 +27,6 @@ export const fetchAllStartups = async (req, res) => {
   } catch (error) {
     console.error(`Error in GET /startups route: ${error}`);
     // Log the error and respond with a 500 Internal Server Error
-    console.error("Error in POST /logout route:", error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -53,7 +52,6 @@ export const fetchAllDomain = async (req, res) => {
   } catch (error) {
     console.error(`Error in GET /investments route: ${error}`);
     // Log the error and respond with a 500 Internal Server Error
-    console.error("Error in POST /logout route:", error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -106,9 +104,8 @@ export const createNewStartupItem = async (req, res) => {
         : "Unable to post right now",
     });
   } catch (error) {
-    console.error(`Error in GET /add route: ${error}`);
+    console.error(`Error in POST /add route: ${error}`);
     // Log the error and respond with a 500 Internal Server Error
-    console.error("Error in POST /logout route:", error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
