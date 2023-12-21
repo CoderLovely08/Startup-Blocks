@@ -134,7 +134,7 @@ export const validateUser = async () => {
  */
 export const postNewStartup = async (startupInfo) => {
   try {
-    const pattern = /^[a-zA-Z0-9]+$/;
+    const pattern = /^[a-zA-Z0-9\s+]+$/;
 
     if (!pattern.test(startupInfo.startupName)) {
       return {
@@ -147,7 +147,7 @@ export const postNewStartup = async (startupInfo) => {
       return {
         success: false,
         message:
-          "Investment type is not valid, use Alphanumeric characters only",
+          "City name is not valid, use Alphanumeric characters only",
       };
     }
 
