@@ -21,9 +21,11 @@ export const registerUser = async (req, res) => {
       message: isCreated.message,
     });
   } catch (error) {
+    console.error(`Error in POST /registration route: ${error}`);
     // Handle errors and respond with an error message
     res.json({
-      error: "Error occurred in registration route",
+      success: false,
+      message: "Internal server error",
     });
   }
 };
@@ -52,8 +54,10 @@ export const loginUser = async (req, res) => {
 
       // Set the JWT as an HttpOnly cookie for better security
       res.cookie("token", token, {
-        // httpOnly: true,
-        // secure: process.env.NODE_ENV === "production",
+        expires: new Date(Date.now() + 900000),
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
       });
 
       // Respond with success and the token
@@ -70,12 +74,43 @@ export const loginUser = async (req, res) => {
       });
     }
   } catch (error) {
-    console.error("Error in login route:", error);
+    console.error("Error in POST /login route:", error);
 
-    // Handle other errors and respond with an appropriate message
     res.status(500).json({
       success: false,
       message: "Internal server error",
     });
   }
 };
+
+/**
+ * Logout the user by clearing the authentication token cookie.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ */
+export const logoutUser = async (req, res) => {
+  try {
+    // Clear the authentication token cookie
+    res.clearCookie("token", {
+      expires: new Date(Date.now() + 0),
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+    });
+
+    // Respond with a successful logout message
+    res.status(200).json({
+      success: true,
+      message: "Logout Successful",
+    });
+  } catch (error) {
+    // Log the error and respond with a 500 Internal Server Error
+    console.error("Error in POST /logout route:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+
