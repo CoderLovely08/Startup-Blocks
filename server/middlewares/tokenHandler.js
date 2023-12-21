@@ -13,7 +13,7 @@ const TOKEN_EXPIRATION = "1h";
  */
 export const generateJwtToken = async (payload) => {
   try {
-    const token = await jwt.sign(payload, process.env.TOKEN_SECRET, {
+    const token = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: TOKEN_EXPIRATION,
     });
     return token;
@@ -38,8 +38,13 @@ export const verifyToken = async (req, res, next) => {
       // Verify the access token
       const decodedToken = await jwt.verify(
         accessToken,
-        process.env.TOKEN_SECRET
+        process.env.ACCESS_TOKEN_SECRET
       );
+
+      req.user = {
+        userId: decodedToken.userId,
+        userName: decodedToken.userName,
+      };
 
       // Continue to the next middleware or route handler
       next();
