@@ -1,11 +1,12 @@
 import { SnackbarProvider } from "notistack";
-import React from "react";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Nav from "./components/Nav";
 import { useAuth } from "./context/AuthContext";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
+import PostStartup from "./pages/PostStartup";
+import NotFoundPage from "./pages/NotFoundPage";
 
 const App = () => {
   const { user } = useAuth();
@@ -35,6 +36,12 @@ const App = () => {
           path="/register"
           element={user ? <Navigate to="/" /> : <RegisterPage />}
         />
+
+        {/* Post Startup */}
+        <Route exact path="/post" element={<PostStartup />} />
+
+        {/* Irrelevant Routes */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );
